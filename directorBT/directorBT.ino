@@ -33,7 +33,8 @@ ZBTxRequest terceraS=ZBTxRequest(tercera,addr16,broadcastradius,option,payload,s
 long tiempo;
 int i=0;
 bool a = false;
- 
+char recibido;
+
  
 void Envio(void){
     if(millis()-tiempo>500){
@@ -46,15 +47,23 @@ void Envio(void){
      }
 }
  
- 
+
+
+
+uint8_t tempo;
+unsigned long periodo;
+
 void loop()
 {
-  
-  
+ 
   
   if(BT.available())
   {
-    Serial.write(BT.read());
+    recibido = BT.read();
+    tempo = (uint8_t) recibido;
+    float aux = (float)tempo/60;
+    periodo=(long)1000/aux;
+    Serial.println(periodo);
   }
  
 
