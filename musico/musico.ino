@@ -4,7 +4,7 @@
 
 XBee xbee;
 Rx64Response rx64 = Rx64Response();
-const int motor = 13; 
+const int motor = 2; 
 
 void setup() {
   xbee = XBee();
@@ -17,9 +17,11 @@ void setup() {
   Timer1.attachInterrupt(vibrar);
   
 }
+
+
 bool entrar = false;
 
-unsigned long frecuencia = 500;
+unsigned long frecuencia = 1000;
 int recibido;
 unsigned long antes=millis();
 
@@ -30,10 +32,9 @@ void vibrar(void){
       antes = millis();
   }
   
-  else if(millis() - antes > 50){
+  else if(millis() - antes > 100){
     digitalWrite(motor, LOW);
-  }
- 
+  } 
 }
 
 
@@ -41,9 +42,11 @@ void vibrar(void){
 void loop() {
   
    if(Serial.available()>0){
+ 
+      noInterrupts();
     recibido = Serial.read();
     
-
+  Serial.println(recibido,HEX);  
     if(recibido == 0x0){
       entrar=false;
     }
@@ -52,14 +55,19 @@ void loop() {
         float au1= (float)recibido/(float)60;
         float au2 = (float)1000 / (float)au1;
         frecuencia = (unsigned long) au2; 
+        Serial.println(frecuencia);
         entrar = false;
+        digitalWrite(motor, HIGH);
+         antes = millis();
         Serial.read();
+        
     }
    
-    else if(recibido == 0x7E ){
+    else if(recibido == 0x7F ){
       entrar=true;
     }
+   interrupts();
   }
-  
-  Serial.println(millis() - antes);    
+
+
 }
