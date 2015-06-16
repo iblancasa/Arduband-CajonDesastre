@@ -44,6 +44,9 @@ long tiempo;
 int i=0;
 bool a = false;
 
+
+
+
 void loop() {
     if(millis()-tiempo>500){
        if(a)

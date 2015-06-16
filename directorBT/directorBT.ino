@@ -42,16 +42,16 @@ int i=0;
 bool a = false;
 char recibido;
 
-uint8_t tempo='>';
-unsigned long periodo=980;
+uint8_t tempo='<';
+unsigned long periodo=4000;
  
 void Envio(void){
     if(millis()-tiempo>periodo){
-       // if(a)
+     if(a)
        xbee.send(primeraS);
-     /*  else
+     else
          xbee.send(segundaS);
-       a=!a;*/
+       a=!a;
        tiempo=millis();
        Serial.println("ENVIADO");
      }

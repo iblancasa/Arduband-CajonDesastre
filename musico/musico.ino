@@ -12,7 +12,7 @@ void setup() {
   xbee.setSerial(Serial);
   
   pinMode(motor, OUTPUT);
-  Timer1.initialize(100);
+  Timer1.initialize(500);
   
   Timer1.attachInterrupt(vibrar);
   
@@ -21,9 +21,9 @@ void setup() {
 
 bool entrar = false;
 
-unsigned long frecuencia = 1000;
+ long frecuencia = 1000;
 int recibido;
-unsigned long antes=millis();
+ long antes=millis();
 
 void vibrar(void){
   
@@ -32,7 +32,7 @@ void vibrar(void){
       antes = millis();
   }
   
-  else if(millis() - antes > 100){
+  else if(millis() - antes > 300){
     digitalWrite(motor, LOW);
   } 
 }
@@ -41,33 +41,69 @@ void vibrar(void){
 
 void loop() {
   
+   if(Serial.available()>=21){
+     while(Serial.available()>0){
+        recibido = Serial.read();
+        
+      //  Serial.println(recibido,HEX);
+        
+         if(entrar){
+              float au1= (float)recibido/(float)60;
+              float au2 = (float)1000 / (float)au1;
+              frecuencia = (long) au2; 
+             Serial.println(recibido,HEX);
+          
+         /*      Serial.println(au1);
+                Serial.println(au2);
+              Serial.println(frecuencia);
+              Serial.println("======================================================");
+           */  
+           Serial.read();
+           entrar = false;
+           digitalWrite(motor, HIGH);
+           antes = millis();
+          }
+         
+          else if(recibido == 0x7F ){
+            entrar=true;
+          }
+     }
+    //  noInterrupts();
+   
+
+
+   //interrupts();
+  }
+
+
+/**
+ 
    if(Serial.available()>0){
  
-      noInterrupts();
+    //  noInterrupts();
     recibido = Serial.read();
-    
-  Serial.println(recibido,HEX);  
-    if(recibido == 0x0){
-      entrar=false;
-    }
-    
-    else if(entrar){
+    Serial.println(recibido);
+
+    if(entrar){
         float au1= (float)recibido/(float)60;
         float au2 = (float)1000 / (float)au1;
-        frecuencia = (unsigned long) au2; 
+        frecuencia = (long) au2; 
+      // Serial.println(recibido,HEX);
+    
+   /*      Serial.println(au1);
+          Serial.println(au2);
         Serial.println(frecuencia);
-        entrar = false;
+        Serial.println("======================================================");
+       /* entrar = false;
         digitalWrite(motor, HIGH);
          antes = millis();
-        Serial.read();
-        
     }
    
     else if(recibido == 0x7F ){
       entrar=true;
     }
-   interrupts();
+   //interrupts();
   }
-
+*/
 
 }
