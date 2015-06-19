@@ -16,7 +16,7 @@ Estas redes suelen tener también motas de tipo “router” (permiten establece
 Como se comentaba cuando se hablaba del dispositivo del director, se puede conectar con un dispositivo móvil Android. Como es necesario que el director indique el tempo que el sistema debe marcar a los músicos, esta aplicación móvil es la que transfiere al controlador la velocidad a la que debe compaginar a los intérpretes (para evitar sobrecargar la red, se hace una coordinación cada cierto tiempo -por si hubiera habido retrasos en la organización inicial- y cada dispositivo subdivide en función del tempo que se le ha enviado). Buscando facilitar al usuario la utilización de esta tecnología, se ha desarrollado tanto una aplicación para teléfonos móviles, como para smartwatches que funcionen con el sistema operativo Android Wear.
 
 
-### Palabras clave
+##### Palabras clave
 
 ZigBee, Metrónomo, Arduino, WSN, Xbee, Android
 
@@ -46,7 +46,7 @@ Musician: it is composed of an “end device” node. It receives (from “music
 * Taking this base, it is possible to create new functions such as installing a vibration sensors in drums to measure the tempo of the band and provide a feedback to the director. Another possibility could be rollcalling at the band (only it is necessary show what nodes are in the network at the moment).
 
 
-### Palabras clave
+##### Palabras clave
 
 ZigBee, Metronome, Arduino, WSN, Xbee, Android
 
@@ -73,3 +73,13 @@ Como objetivos secundarios:
 
 
 Hay que destacar entre los aspectos formativos previos más utilizados para el desarrollo del proyecto los conocimientos adquiridos a lo largo del grado sobre ingeniería del software (para establecer los requisitos, planificación y costes del desarrollo), programación de dispositivos móviles y alguna formación en desarrollo de dispositivos hardware.
+
+
+##Bibliografía
+
+* “Teoría Completa de la Música”. Autor: DIonisio de Pedro. Editorial: Real Musical
+* “Lenguaje Musical 1-4”. Grado Elemental. Autores: Raúl Segura Varo, María Torres Moreno, Marta Torres Moreno. Editorial: R.C.M. Musicales
+* “Building Wireless Sensor Networks”. Autor: Robert Faludi. Editorial: O’Reilly
+* Blog de Robert Faludi: https://www.faludi.com/
+* “Hype Cycle for the Internet of Things, 2014”  https://www.gartner.com/doc/2804217?ref=ddisp
+* “Dynamic Wireless Sensor Networks”. Autores: Sharief M.A. Oteafy, Hossam S. Hassanein. Editorial:  Wiley-ISTE
