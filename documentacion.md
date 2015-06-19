@@ -49,3 +49,27 @@ Taking this base, it is possible to create new functions such as installing a vi
 ### Palabras clave
 
 ZigBee, Metronome, Arduino, WSN, Xbee, Android
+
+
+## Objetivos 
+
+El objetivo de este proyecto, como ya se ha manifestado en el resumen, es la de crear un dispositivo hardware que permita a los componentes de una banda de música seguir el mismo pulso (y de forma constante) durante la ejecución de una obra.
+
+Los principales objetivos a alcanzar con este desarrollo son:
+* Que el sistema sea wireless: se quiere realizar la sincronización entre los dispositivos que portan los músicos sin utilizar una conexión física entre ellos
+* Conseguir un precio menor que otras soluciones del mercado: utilizando una tecnología distinta a la que han usado otros productos, tratar de obtener un sistema con un menor costo
+* Escalable en el número de dispositivos: el sistema no debe verse resentido con el aumento del número de dispositivos en la red
+* Ampliable en funciones: posibilidad de desarrollar nuevas funcionalidades partiendo de la red de sensores
+* Vestible: debe ser un sistema discreto y cómodo para el portador
+* Bajo consumo energético: debido a que hay actuaciones que pueden durar varias horas, es necesario que el sistema consuma poca energía para evitar agotar la fuente de alimentación
+* Tecnología lo más libre posible: se desea utilizar herramientas libres para tratar de atraer al mayor número de desarrolladores posible. Además por la propia naturaleza del software/hardware libre, la comunidad aportará parches y soluciones a los problemas que puedan presentarse, mejorando la calidad del desarrollo
+* Suficiente para cubrir las necesidades del mercado: aunque anteriormente se mencionaba que se desea que el sistema sea ampliable en funciones, es también necesario que la versión inicial tenga unas funciones mínimas que permitan cubrir las necesidades básicas del mercado
+
+
+Como objetivos secundarios:
+* Utilizar diversas versiones de la plataforma hardware Arduino: se tiene como objetivo utilizar distintas versiones de Arduino para poder obtener el producto con distintos formatos (Arduino Lilypad, Arduino Uno...)
+* Desarrollar una red inalámbrica de sensores: teniendo en cuenta la actual dirección de la industria respecto a este tipo de tecnología (su aplicación, por ejemplo. en el “Internet de las Cosas”), es interesante trabajar con esta tecnología
+* Crear un dispositivo wearable: actualmente es uno de los sectores en los que más están trabajando las compañías. Si miramos la curva de Gatner [X], en el año 2014 estas tecnologías se situaban en la cima del ciclo.
+
+
+Hay que destacar entre los aspectos formativos previos más utilizados para el desarrollo del proyecto los conocimientos adquiridos a lo largo del grado sobre ingeniería del software (para establecer los requisitos, planificación y costes del desarrollo), programación de dispositivos móviles y alguna formación en desarrollo de dispositivos hardware.
