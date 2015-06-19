@@ -1,4 +1,4 @@
-## Resúmen
+## Resumen
 
 En el presente trabajo, el lector podrá encontrar cómo se ha desarrollado un sistema wearable que, mediante vibración, facilita a los intérpretes de una banda de música seguir el mismo tempo.
 
@@ -14,3 +14,38 @@ El tipo de red que forman los dispositivos XBee ZigBee es de tipo malla pero, ut
 Estas redes suelen tener también motas de tipo “router” (permiten establecer un enlace entre la mota coordinadora y la final en caso que los paquetes no puedan llegar debido a problemas de distancia, por ejemplo), aunque en este caso se ha desestimado para procurar que los paquetes den solo un salto (evitando retardos). Por otra parte, gracias a la utilización de dispositivos finales en vez de routers, una vez que toda la red se encuentre sincronizada, el director podrá apagar su mota (ahorrando energía) y, al haber inactividad en la red, las motas de los músicos entrarán en estado de hibernación (también ahorrando energía).
 
 Como se comentaba cuando se hablaba del dispositivo del director, se puede conectar con un dispositivo móvil Android. Como es necesario que el director indique el tempo que el sistema debe marcar a los músicos, esta aplicación móvil es la que transfiere al controlador la velocidad a la que debe compaginar a los intérpretes (para evitar sobrecargar la red, se hace una coordinación cada cierto tiempo -por si hubiera habido retrasos en la organización inicial- y cada dispositivo subdivide en función del tempo que se le ha enviado). Buscando facilitar al usuario la utilización de esta tecnología, se ha desarrollado tanto una aplicación para teléfonos móviles, como para smartwatches que funcionen con el sistema operativo Android Wear.
+
+
+### Palabras clave
+
+ZigBee, Metrónomo, Arduino, WSN, Xbee, Android
+
+
+
+## Resumen en inglés
+
+One of the principles of engineering is creating solutions to the problems of users. In this dissertation, the reader will be able to find how a wearable system has been developed helping musicians to go on the same “tempo” through vibration while they are playing music. This device sends the same pulse to all musicians and keep the “tempo” constant.
+
+
+Some companies have developed similar systems. For example, Peterson created an item called “Body Beat”. It has a big range of functions and odds but it is too expensive for the majority of musicians. One device cheaper than only with synchronization functions (the most important ability of this system) could attract more buyers. Furthermore, to create a free and open hardware platform could interest other developers to improve the functionality of this product (helping musicians, music teachers and other music professionals to play music with a better quality).
+
+
+All music band’s components need to have the same pulse (if each instrumentalist had a different pulse, each one would read his score in a different speed and it would be a problem). It is possible because it has been created using a wireless sensor network (they enable communication with a very low energy cost). Then, when all nodes are synchronized, they know when they have to start the vibrations. But they do not have to be vibrating all time. They have to vibrate constantly as many times as the director said (for example, if compasses are of 4/4 and tempo 60 bpm -Beats Per Minute-, each node will vibrate 1 time per second).
+
+This network has been deployed using ZigBee implementation of the “Digi International” company. Also, circuit logic has been put into operation using the hardware platform called Arduino (various versions of this, like Arduino Lilypad, Arduino Uno or Arduino Leonardo).
+
+
+In the following pages , it is explained in more detail why certain decisions have been taken (some experiments in time between node's communications, explanations about XBee communication packets...)
+
+XBee Zigbee’s devices are organized in mesh network but, changing each node’s configuration, we have now a network with star topology. There are two kinds of wearables:
+Music director: it is the coordinator of network. It is who start the network and establish the paths of communication packets between all nodes. In addition, it is able to send data to every node and receive data from an Android device via Bluetooth. Only one in each network.
+Musician: it is composed of an “end device” node. It receives (from “music director device”) data (which contains “tempo”). Arduino takes this tempo and performs calculations to decide when it has to activate or deactivate a vibration motor (this motor helps musician to keep track of the correct pulse). There is one for each musician (in network, there will be as nodes as musicians).
+
+Director’s device can be connected to an Android device (which could be a smartphone or a smartwatch, because one application has been developed to each one). This application allows director to indicate music’s “tempo” and each application was developed using Google’s recommendations about design (Material Design principles).
+
+Taking this base, it is possible to create new functions such as installing a vibration sensors in drums to measure the tempo of the band and provide a feedback to the director. Another possibility could be rollcalling at the band (only it is necessary show what nodes are in the network at the moment).
+
+
+### Palabras clave
+
+ZigBee, Metronome, Arduino, WSN, Xbee, Android
