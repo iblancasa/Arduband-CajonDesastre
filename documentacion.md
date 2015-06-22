@@ -1,3 +1,25 @@
+## Motivación e introducción
+
+### Bandas de música y su problema
+
+Los directores de orquesta tienen como función la de guiar a los intérpretes de dicho grupo en la interpretación de las distintas composiciones (ya sea para realizar correcciones durante los ensayos, elegir qué obras integrar en el repertorio, aportar un punto de expresividad en la entonación...). 
+
+Sin embargo, durante un concierto hay un cometido elemental: otorgar unidad entre los instrumentos (señalar para que todos los músicos sigan el mismo ritmo -y mantener dicha velocidad durante toda la obra-, por ejemplo).
+
+A esto hay que añadirle la dificultad que se presenta cuando bandas de música, profesionales o no, realizan algún tipo de desfile o pasacalles donde el director no está visible a todos los músicos y, por tanto, la tarea descrita anteriormente se hace muy difícil o imposible de llevar a cabo.
+
+Este trabajo se centrará en tratar de remediar la problemática que genera este inconveniente.
+
+### Soluciones actuales
+
+Estas asociaciones tienen, como principal solución a este problema, la utilización metrónomos durante los ensayos y, al actuar en la calle, tratar de conseguir el mismo resultado. 
+
+Con el despegue de los teléfonos inteligentes, han aparecido múltiples aplicaciones que hacen las veces de metrónomo (incluso, algunas son capaces de calcular el “tempo” -término que se verá con más detenimiento después- a partir de las pulsaciones que haga el usuario sobre un botón -y dichas pulsaciones se deberán hacer al ritmo que vaya la música-). 
+
+Por otro lado, los compositores han introducido algún tipo de percusión a sus obras con la finalidad de favorecer el acompasamiento entre todos los instrumentos (además de añadir un instrumento que ayude a enriquecerla). Si unimos estos dos hechos, instalando una aplicación de esta naturaleza en un teléfono móvil y éste a su vez en un soporte para un instrumento de percusión, podríamos mantener la velocidad de interpretación durante la actuación con un coste relativamente bajo (aunque se mantiene la velocidad en el punto de referencia -que al no ser un computador, estará sujeto a errores-, no se consigue solucionar totalmente la descoordinación entre los músicos).
+
+
+
 ## Resumen
 
 En el presente trabajo, el lector podrá encontrar cómo se ha desarrollado un sistema wearable que, mediante vibración, facilita a los intérpretes de una banda de música seguir el mismo tempo. De esta forma, se ayudará a que todos los miembros del conjunto sigan el mismo pulso y puedan mantenerlo constante durante toda la ejecución.
