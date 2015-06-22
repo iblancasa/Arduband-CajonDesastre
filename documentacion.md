@@ -1,4 +1,4 @@
-## Motivación e introducción
+# Motivación e introducción
 
 ### Bandas de música y su problema
 
@@ -17,6 +17,52 @@ Estas asociaciones tienen, como principal solución a este problema, la utilizac
 Con el despegue de los teléfonos inteligentes, han aparecido múltiples aplicaciones que hacen las veces de metrónomo (incluso, algunas son capaces de calcular el “tempo” -término que se verá con más detenimiento después- a partir de las pulsaciones que haga el usuario sobre un botón -y dichas pulsaciones se deberán hacer al ritmo que vaya la música-). 
 
 Por otro lado, los compositores han introducido algún tipo de percusión a sus obras con la finalidad de favorecer el acompasamiento entre todos los instrumentos (además de añadir un instrumento que ayude a enriquecerla). Si unimos estos dos hechos, instalando una aplicación de esta naturaleza en un teléfono móvil y éste a su vez en un soporte para un instrumento de percusión, podríamos mantener la velocidad de interpretación durante la actuación con un coste relativamente bajo (aunque se mantiene la velocidad en el punto de referencia -que al no ser un computador, estará sujeto a errores-, no se consigue solucionar totalmente la descoordinación entre los músicos).
+
+
+### Conceptos previos necesarios
+
+Para poder entender algunos conceptos que se usarán a lo largo de este trabajo y hablar con propiedad en cuanto a algunos conceptos, es necesario tener unos conocimientos musicales mínimos. Se procede a definir algunos conceptos:
+
+* Pentagrama: es el conjunto formado por cinco líneas paralelas entre sí y los cuatro espacios que quedan entre ellas. Aunque también puede haber líneas adicionales por encima y por debajo del pentagrama, principalmente se usan estas cinco líneas y espacios para escribir los símbolos musicales (ya sean notas, silencios...).
+
+Representación gráfica de un pentagrama
+
+* Pulso: es el latido constante y regular de la música, siendo la unidad temporal básica y, en comparación con esta unidad de tiempo, se mide la duración de las notas y silencios. 
+
+* “Tempo”: es la velocidad del pulso. Para indicar un tempo se utiliza como unidad los “bpm” (“Beats Per Minute”, es decir, los “Pulsos Por Minuto”). Así, si el tempo de una obra es de 60 bpm, tendremos que se producirá un pulso por segundo (1 bps) o lo que es lo mismo, cada un segundo, tendremos un pulso.
+* Ritmo: es la combinación de sonidos y silencios de diferente duración.
+
+* Compás: facilita la lectura de la música. En un pentagrama, los compases quedan divididos por líneas divisorias. Tomaremos que todos los compases son cuaternarios de subdivisión binaria (la mayoría de las obras para banda de música se encuentran compuestas para este tipo de compases o binarios -encajables en los anteriores- y así podremos simplificar el problema para su estudio), es decir, un compás está dividido en cuatro notas negras (cada una será de un pulso de duración).
+
+Un pentagrama con compases cuaternarios de subdivisión binaria
+
+
+En la anterior imagen podemos ver un pentagrama con compases cuaternarios de subdivisión binaria. El símbolo al principio de pentagrama con forma de “C” es llamado “compasillo” y es lo mismo que poner 4/4 (indicando el tipo de compases que van a seguir). 
+
+Para comprender cuántas notas caben por cada uno de estos compases, se ha realizado la siguiente tabla (donde 4/4 sería completar el compás).
+
+| Nota          | Figura                             | Tiempo       |
+| ------------- | -----------------------------------|------------- |
+| Redonda       | ![](documentacion/redonda.png)     |1/4           |
+| Blanca        | ![](documentacion/blanca.png)      |2/4           |
+| Negra         | ![](documentacion/negra.png)       |4/4           |
+| Corchea       | ![](documentacion/corchea.png)     |1/8           |
+| Semicorchea   | ![](documentacion/semicorchea.png) |1/16          |
+| Fusa          | ![](documentacion/fusa.png)        |1/32          |
+| Semifusa      | ![](documentacion/semifusa.png)    |1/64          |
+
+
+
+Y sus correspondientes silencios, que no se mostrarán debido a que no es finalidad de esta memoria realizar un estudio sobre música, pero que el lector puede consultar en la bibliografía.
+
+
+Producto a desarrollar
+Teniendo en cuenta todo lo dicho en las anteriores páginas, es el momento de manifestar el dispositivo que se desea desarrollar en este trabajo:
+un dispositivo que marque el pulso (que no el ritmo, al poder ser éste irregular mientras que el pulso es constante) en función del “tempo” que indique el director de la agrupación. Además, el sistema deberá ser discreto ya que se busca que las bandas lo utilicen principalmente en la calle.
+
+Esta necesidad por parte de las bandas de música ha sido detectada por algunos fabricantes, como Peterson, que puso a la venta un producto llamado “Body Beat”. Dispone de un amplio abanico de funciones pero su tamaño y su elevado coste hacen inviable la implantación del sistema en una banda de música (hay que tener en cuenta que el número de componentes en una banda es variable pero ronda entre los 50 y 100 músicos -algunas de ellas sobrepasan este número, como la “Banda de Cornetas y Tambores Nuestra Señora de la Victoria” conocida como “Las Cigarreras” de Sevilla que, en las fechas en las que se escribe este trabajo, ronda los 140 componentes-. Por otro lado, las dimensiones, de unos 10.8 cm x 7.6 cm x 2.54 cm puede que sean demasiado grandes). Como último escollo, muchos son los usuarios que, a través de la red, se quejan de la corta duración de la batería (teniendo en cuenta que hay actuaciones que pueden llegar a durar entre 8 y 10 horas, esto es un problema importante).
+
+Un dispositivo más barato con un número menor de funciones pero que permita la sincronización de todos los dispositivos y mantener el tempo durante toda la interpretación, atraería más usuarios. Si además se procura que la construcción se haga utilizando software y hardware libre, podría crearse una comunidad de desarrolladores en torno al producto, consiguiendo mejorar la calidad del dispositivo y aumentar la funcionalidad de este.
 
 
 
