@@ -26,7 +26,9 @@ Para poder entender algunos conceptos que se usarán a lo largo de este trabajo 
 * Pentagrama: es el conjunto formado por cinco líneas paralelas entre sí y los cuatro espacios que quedan entre ellas. Aunque también puede haber líneas adicionales por encima y por debajo del pentagrama, principalmente se usan estas cinco líneas y espacios para escribir los símbolos musicales (ya sean notas, silencios...).
 
 ![](documentacion/pentagrama.jpg)
+
 Representación gráfica de un pentagrama
+
 
 * Pulso: es el latido constante y regular de la música, siendo la unidad temporal básica y, en comparación con esta unidad de tiempo, se mide la duración de las notas y silencios. 
 
@@ -36,7 +38,9 @@ Representación gráfica de un pentagrama
 * Compás: facilita la lectura de la música. En un pentagrama, los compases quedan divididos por líneas divisorias. Tomaremos que todos los compases son cuaternarios de subdivisión binaria (la mayoría de las obras para banda de música se encuentran compuestas para este tipo de compases o binarios -encajables en los anteriores- y así podremos simplificar el problema para su estudio), es decir, un compás está dividido en cuatro notas negras (cada una será de un pulso de duración).
 
 ![](documentacion/compases.jpg)
+
 Un pentagrama con compases cuaternarios de subdivisión binaria
+
 
 
 En la anterior imagen podemos ver un pentagrama con compases cuaternarios de subdivisión binaria. El símbolo al principio de pentagrama con forma de “C” es llamado “compasillo” y es lo mismo que poner 4/4 (indicando el tipo de compases que van a seguir). 
