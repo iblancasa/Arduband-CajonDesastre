@@ -161,3 +161,4 @@ Hay que destacar entre los aspectos formativos previos más utilizados para el d
 8. "XBee Mechanical Drawings" https://www.sparkfun.com/datasheets/Wireless/Zigbee/XBee-Dimensional.pdf
 9. "XBee® & XBee-PRO® ZB Datasheet" https://cdn.sparkfun.com/datasheets/Wireless/Zigbee/ds_xbeezbmodules.pdf
 10. "Product Detail Digi" http://www.digi.com/support/productdetail?pid=3430&osvid=0&type=documentation
+11. "GitHub - LilyPad 20mm Coin Cell Battery Holder" https://github.com/sparkfun/LilyPad_Coin_Cell_Battery_Holder-20mm
