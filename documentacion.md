@@ -158,3 +158,6 @@ Hay que destacar entre los aspectos formativos previos más utilizados para el d
 5. “Hype Cycle for the Internet of Things, 2014”  https://www.gartner.com/doc/2804217?ref=ddisp
 6. “Dynamic Wireless Sensor Networks”. Autores: Sharief M.A. Oteafy, Hossam S. Hassanein. Editorial:  Wiley-ISTE
 7. "Ingeniería del software: un enfoque práctico. Cuarta edición". Autor: Roger S. Perssman. Editorial: McGraw Hill.
+8. "XBee Mechanical Drawings" https://www.sparkfun.com/datasheets/Wireless/Zigbee/XBee-Dimensional.pdf
+9. "XBee® & XBee-PRO® ZB Datasheet" https://cdn.sparkfun.com/datasheets/Wireless/Zigbee/ds_xbeezbmodules.pdf
+10. "Product Detail Digi" http://www.digi.com/support/productdetail?pid=3430&osvid=0&type=documentation
