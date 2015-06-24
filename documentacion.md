@@ -258,6 +258,16 @@ En este último punto se nos hablan de dos modos de funcionamiento:
 Cuando comencemos a desarrollar el dispositivo, decidiremos qué modo es el que más nos interesa y por qué.
 
 
+### Posible problema de escalabilidad
+
+Aunque estas redes están pensadas para contar con miles de dispositivos, estas suelen estar formadas por un coordinador y varios routers. Al haber solamente un coordinador, es éste quien debe almacenar toda la información que concierne a la red.
+
+La dirección MAC de una mota se divide en dos partes iguales (dirección alta y dirección baja). Teniendo en cuenta que la MAC tiene un tamaño de 64 bits, cada parte tiene un total de 32 bits. La dirección alta es la misma para todos los nodos y la baja es la que cambia. Por tanto, tendremos 2^32 direcciones disponibles (más de 4.000.000.000) o lo que es lo mismo, podremos direccionar hasta 2^32 dispositivos. El problema que se presenta es el siguiente:
+Cada dirección ocupa 64 bits, osea, 8 bytes. Si deseamos guardar 150 direcciones (en la introducción se hablaba de casos en los que había bandas que superan los 100 integrantes por lo que deberíamos pensar en guardar un número mayor de direcciones, donde cada dirección sería un músico), tendremos que almacenar 1200 bytes (8 bytes * 150 direcciones), unos 1.17KB. Si la memoria destinada a direcciones en la mota es menor que este tamaño, pueden producirse problemas. 
+
+Ya que no se disponen de tantos dispositivos para hacer un experimento ni se ha encontrado información al respecto, no podemos predecir el comportamiento del sistema ante tal número de nodos.
+
+
 
 
 
