@@ -149,6 +149,97 @@ Como objetivos secundarios:
 Hay que destacar entre los aspectos formativos previos más utilizados para el desarrollo del proyecto los conocimientos adquiridos a lo largo del grado sobre ingeniería del software (para establecer los requisitos, planificación y costes del desarrollo), programación de dispositivos móviles y alguna formación en desarrollo de dispositivos hardware.
 
 
+
+# Desarrollo
+
+## Solución general propuesta
+
+El dispositivo que se desea desarrollar tiene que hacer la función básica del director de la banda de música durante una actuación, es decir, marcar el mismo pulso a los músicos.
+
+Cuando la agrupación se encuentra realizando un concierto, el esquema de comunicación que se sigue es el siguiente (donde el nodo rojo es el director y lo morados los músicos):
+
+![](documentacion/directoresquema.png)
+
+Esquema de comunicación director-músico
+
+
+
+Hay que aclarar que en este caso, para simplificar, sólo se han dibujado 5 músicos, sin embargo, como se vio en la introducción, las bandas suelen contar entre sus filas con varias decenas de integrantes.
+
+Es preciso establecer comunicación entre los músicos y el director así que será fundamental la creación de una red. Como podemos observar, el esquema es el mismo que el de una red en estrella. Cuando llevemos esta misma situación a una actuación en la calle, la topología será la misma (un nodo hará las veces de maestro y el resto de esclavos).
+
+Se van a desarrollar pues, dos dispositivos:
+* Dispositivo director: enviará el pulso a los otros nodos
+* Dispositivo músico: recibirá el pulso y, mediante un actuador, lo informará al intérprete
+
+
+En los siguientes apartados se irán viendo las tecnologías propuestas y cómo se ha implementado el sistema.
+
+
+## Tecnologías a utilizar
+
+### Creación de la red: WSN
+
+Para crear la red se va a optar por formar una red inalámbrica de sensores ya que es el tipo de infraestructura que cumple con las necesidades del sistema a desarrollar. 
+
+Una red inalámbrica de sensores (WSN, Wireless Sensor Network) es aquella formada por un conjunto de elementos autónomos cuyo objetivo es el de solucionar una tarea utilizando comunicación inalámbrica. Los nodos que forman la red no disponen de alta capacidad funcional y tienen un costo energético bajo (siendo posible su alimentación a través de baterías).
+
+#### Método a utilizar
+
+Dentro de las WSN, podemos elegir entre distintos métodos para realizar la comunicación entre nuestras motas. Según las necesidades que tenga nuestra red, utilizaremos uno u otro. Se van a analizar brevemente algunos de los principales:
+
+* WiFi: basado en el estándar IEEE 802.11. Alta velocidad en transferencia de datos (permite adaptación a la velocidad de transmisión), seguridad en la red pero no dispone de mecanismos para ahorrar energía.
+* Bluetooth: otro estándar de comunicación entre dispositivos. Permite broadcast, una velocidad de hasta 24Mbit/s y sus redes son de hasta 8 nodos (uno maestro y siete esclavos). En la versión 4 se han introducido métodos para reducir el consumo de energía.
+* 802.15.4: es un estándar propuesto por el IEEE. El ancho de banda es muy pequeño, la latencia se sitúa en torno a los 15ms, alcance de entre 10 y 20 metros, permite tener miles de nodos en la red, mecanismos para tener un bajísimo consumo de energía y barato.
+* ZigBee: es un estándar desarrollado sobre 802.15.4, lo que quiere decir que añade capas a la propuesta hecha en 802.15.4 (añadiendo algunas funciones).
+
+Todos estos métodos permiten la topología en estrella (en párrafos anteriores se explicó por qué se utiliza para el desarrollo del ingenio). 
+
+Teniendo en cuenta el análisis anterior se concluye que
+
+* WiFi queda descartado: aunque existan redes de sensores que utilicen esta tecnología, WiFi no contempla mecanismos para el ahorro de energía. Aunque vaya a ser necesaria una alta velocidad (debido a los requisitos temporales del sistema), no hace falta tanta como la que proporciona este mecanismo de comunicación (por lo que se vería desperdiciada)
+* Bluetooth se descarta: a través de la capa de aplicación, algunas implementaciones de redes inalámbricas de sensores han conseguido aumentar el número máximo de nodos por red. Por otra parte, aunque la versión 4 de Bluetooth esté pensada para economizar el gasto energético, este sigue siendo demasiado alto (es algo que cualquier usuario experimenta día a día cuando conecta unos auriculares, un manos libres o una smartband a su smartphone, descendiendo el nivel de carga de la batería a una velocidad muy alta)
+* 802.15.4 o ZigBee son la solución: cumplen con casi todas los requisitos. El problema que puede presentarse viene dado por las velocidades de transferencia: aunque no se necesite realizar grandes traspasos de información, es forzoso que las comunicaciones deben hacerse de la manera más rápida posible. Hay que tener en cuenta que ZigBee está construido a partir de 802.15.4, lo que significa que la latencia será mayor (habrá que sumar la de 802.15.4 a la que provoquen las capas que suma ZigBee). También puede ocurrir que en el canal en el que se estén realizando las comunicaciones se esté produciendo otra (en ese caso, la velocidad de transmisión disminuirá).
+
+Finalmente se ha elegido trabajar con ZigBee aunque, probablemente, con 802.15.4 sería suficiente. El motivo de esta selección viene determinado porque las motas disponibles en el laboratorio son de tipo ZigBee, no habiendo de la otra variedad.
+
+Para ser más específico, se va a utilizar el modelo “XBee 2mW Wire Antenna - Series 2 (ZigBee Mesh)”, cuya referencia es “XB24-Z7WIT-004” y que es la implementación de la compañía “Digi”. Sus características son las siguientes:
+
+* 3.3V @ 40mA
+* 250kbps Max data rate
+* 2mW output (+3dBm)
+* 400ft (120m) range
+* Built-in antenna
+* Fully FCC certified
+* 6 10-bit ADC input pins
+* 8 digital IO pins
+* 128-bit encryption
+* Local or over-air configuration
+* AT or API command set
+
+
+### Controlador
+
+Para llevar a cabo el control de los componentes es necesario algún tipo de microcontrolador o placa controladora. Se han estudiado dos posibles soluciones:
+
+* PICmicro: son microcontroladores. Tienen un precio muy bajo, gran variedad, tamaño pequeño y alta velocidad en funcionamiento. Disponen de una media de 35 instrucciones y se programa en ensamblador. A pesar de su simplicidad, se encuentran orientados a un público muy relacionado con el ámbito de la programación.
+* Arduino: es una plataforma hardware de código abierto. Se compone de una placa que dispone de un microcontrolador. Se puede programar en múltiples lenguajes como Python, Scratch (un lenguaje visual) o, incluso, JavaScript, pero el principal está basado en Processing (un lenguaje con características muy similares a C). Dispone de muchísimas bibliotecas que ayudan a extender su funcionalidad. Se presenta con muchas posibilidades existiendo, incluso, una versión “wear”. Existen shields para interconectar esta placa controladora y las motas XBee (incluso hay una versión especial para Lilypad, el modelo wearable de Arduino).
+
+Aunque las posibilidades con PIC son mayores, tenemos que tener en cuenta que se desea que la plataforma atraiga a un número de desarrolladores. Sabiendo que Arduino se encuentra orientado a un público con una menor formación en electrónica (por lo tanto, accesible a una mayor comunidad), se adecua más al objetivo de este proyecto. También hay que tener en cuenta la cantidad de bibliotecas existentes en Arduino (lo que nos ayudará a abstraernos de algunas tareas). Los problemas a los que nos enfrentamos al elegir esta plataforma son el precio y el tamaño (ambos mayores en Arduino).
+
+
+### Alimentación
+
+Gracias a la existencia de distintos tipos de placas Arduino, podemos crear dispositivos con una forma u otra (como otro de los objetivos es la posibilidad de aumentar la funcionalidad del sistema, habrá funcionalidades que necesiten de placas Arduino con un número distinto de entradas/salidas al que se utilice aquí), aunque tendremos que intentar que sea lo más compacto posible (para no ignorar aquel objetivo en el que se deseaba crear un sistema pequeño y discreto). 
+
+Por ejemplo, en caso que nos encontremos utilizando un Arduino Lilypad, la versión vestible de Arduino, podremos elegir alguna de las opciones que se nos brindan para alimentar nuestro circuito, como el “LLYP-PSU”, en el que podremos colocar una pila AAA o el “LilyPad 20mm Coin Cell Battery Holder”, para pilas de botón (cuyos planos se encuentran disponibles en GitHub).
+
+Otra opción a contemplar (y que cobrará mayor sentido al no usar la versión de Arduino vestible) es la de utilizar bancos de energía (baterías externas). Estas baterías están pensadas para cargar dispositivos móviles con gran consumo energético. La alta capacidad de estas baterías y el bajo consumo de Arduino y XBee, tendrá como resultado la despreocupación del usuario en cuanto al plano energético.
+
+Como se ha mencionado, en función del tipo de Arduino con el que construyamos nuestro ArduBand, se seleccionará un tipo de alimentación u otra, quedando esto, generalmente, a opción del usuario (sobre todo en el caso de la batería externa).
+
+
+
 ## Bibliografía
 
 1. “Teoría Completa de la Música”. Autor: DIonisio de Pedro. Editorial: Real Musical
