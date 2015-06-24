@@ -235,6 +235,28 @@ Pinout de XBee
 
 
 
+Sus características técnicas []:
+
+* 3.3V @ 40mA
+* 250kbps Max data rate
+* 2mW output (+3dBm)
+* 400ft (120m) range
+* Built-in antenna
+* Fully FCC certified
+* 6 10-bit ADC input pins
+* 8 digital IO pins
+* 128-bit encryption
+* Local or over-air configuration
+* AT or API command set
+
+
+En este último punto se nos hablan de dos modos de funcionamiento:
+
+* AT: es el modo transparente. Una vez establecida la configuración (mediante comandos que se envían al dispositivo a través de serial), el dispositivo solo es capaz de comunicarse con la mota cuya dirección MAC corresponde con la de la configuración (también pueden enviarse paquetes a todos los dispositivos en caso que la dirección que se haya configurado sea la de broadcast). Esto quiere decir que, en caso que deseemos cambiar el destino de nuestras comunicaciones, tendremos que reconfigurar la mota (ya sea enviando comandos AT o utilizando algún software que los envíe por nosotros) Es el modo más simple de trabajar con XBee.
+* API: este modo permite mucho más. Capacita al desarrollador a: obtener RSSI (fortaleza de la señal respecto a otro dispositivo), enviar paquetes a múltiples destinos, recibir paquetes, activar funciones de integridad de datos, recibir ACK...
+
+Cuando comencemos a desarrollar el dispositivo, decidiremos qué modo es el que más nos interesa y por qué.
+
 
 
 
