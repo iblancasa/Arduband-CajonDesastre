@@ -203,19 +203,40 @@ Teniendo en cuenta el análisis anterior se concluye que
 
 Finalmente se ha elegido trabajar con ZigBee aunque, probablemente, con 802.15.4 sería suficiente. El motivo de esta selección viene determinado porque las motas disponibles en el laboratorio son de tipo ZigBee, no habiendo de la otra variedad.
 
-Para ser más específico, se va a utilizar el modelo “XBee 2mW Wire Antenna - Series 2 (ZigBee Mesh)”, cuya referencia es “XB24-Z7WIT-004” y que es la implementación de la compañía “Digi”. Sus características son las siguientes:
 
-* 3.3V @ 40mA
-* 250kbps Max data rate
-* 2mW output (+3dBm)
-* 400ft (120m) range
-* Built-in antenna
-* Fully FCC certified
-* 6 10-bit ADC input pins
-* 8 digital IO pins
-* 128-bit encryption
-* Local or over-air configuration
-* AT or API command set
+Para ser más específicos, se va a utilizar el modelo “XBee 2mW Wire Antenna - Series 2 (ZigBee Mesh)”, cuya referencia es “XB24-Z7WIT-004” y que es la implementación de la compañía “Digi”. 
+
+Sus pines son los siguientes:
+
+![](documentacion/xbeepinout.jpg)
+
+Pinout de XBee
+
+* VCC: alimentación
+* TX: pin de salida de comunicación serial
+* RX: pin de entrada de comunicación serial
+* DIO12: entrada o salida digital
+* Reset: permite resetear el módulo
+* DIO10/PWM0/RSSI: tiene tres funcionalidades (entrada/salida digital, RSSI -”Indicador de Intensidad de la Señal”- o pin de modulación por ancho de pulsos)
+* DIO11: entrada o salida digital
+* Reserved: es un pin reservado. No se aconseja conectarlo a nada
+* SLEEP/DIO8/DTR: también dispone de varias funciones (control de sueño de la mota, entrada/salida o señal hardware de handshaking).
+* GND: tierra
+* DIO4: entrada o salida digital
+* DIO7: entrada o salida digital. También puede hacer las funciones de “clear to send”
+* SLEEP: indicador de sueño. Permite saber si la mota se encuentra durmiendo o no (si el estado es alto, se encuentra en funcionamiento)
+* VFREF: no tiene funcionalidad en este modelo
+* ASSOC/DIO5: doble función (indicador de pertenencia a red -estado alto si está asociada a una red- o entrada/salida digital)
+* RST/DIO6: doble función (petición de envío o entrada/salida digital)
+* AD3/DIO3: entrada salida analógica o digital
+* AD2/DIO2: entrada salida analógica o digital
+* AD1/DIO1: entrada salida analógica o digital
+* AD0/DIO0/COM: triple funcionalidad (entrada/salida digital o analógica o puesta en servicio)
+
+
+
+
+
 
 
 ### Controlador
