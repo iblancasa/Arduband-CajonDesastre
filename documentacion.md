@@ -255,7 +255,34 @@ En este último punto se nos hablan de dos modos de funcionamiento:
 * AT: es el modo transparente. Una vez establecida la configuración (mediante comandos que se envían al dispositivo a través de serial), el dispositivo solo es capaz de comunicarse con la mota cuya dirección MAC corresponde con la de la configuración (también pueden enviarse paquetes a todos los dispositivos en caso que la dirección que se haya configurado sea la de broadcast). Esto quiere decir que, en caso que deseemos cambiar el destino de nuestras comunicaciones, tendremos que reconfigurar la mota (ya sea enviando comandos AT o utilizando algún software que los envíe por nosotros) Es el modo más simple de trabajar con XBee.
 * API: este modo permite mucho más. Capacita al desarrollador a: obtener RSSI (fortaleza de la señal respecto a otro dispositivo), enviar paquetes a múltiples destinos, recibir paquetes, activar funciones de integridad de datos, recibir ACK...
 
+Para cambiar de un modo a otro hay que cambiar el firmware.
 Cuando comencemos a desarrollar el dispositivo, decidiremos qué modo es el que más nos interesa y por qué.
+
+#### Modo API
+
+Mientras que en el modo transparente los caracteres que escribamos en el puerto serial de XBee serán enviados directamente a la mota destino, en este modo las comunicaciones se realizan enviando paquetes con una estructura predefinida.
+
+Existen dos formas de comunicarse con la mota cuando se encuentra en este modo:
+Pines de entrada/salida: en el caso de querer dar una salida, la deberemos preestablecer en la configuración. Un pin se configure en modo entrada, tomará el valor que le llegue y la mota enviará el valor a la mota destino. La propia mota genera el paquete y lo envía.
+Puerto serial: permite la creación y envío de distintos tipos de paquetes. Esto se hace de forma manual, es decir, se precisa de un controlador que escriba los valores en el puerto serial de XBee.
+
+Cada paquete sigue la siguiente estructura:
+
+![](documentacion/tramaapi.png)
+
+* 0x7E: comienzo de la trama
+* MSB: byte más significativo para la traza
+* LSB: byte menos significativo para la traza
+* DATA: puede incluir varias cosas, como el tipo de comando API o AT que se está enviando, parámetros…
+* CHECKSUM: checksum de la trama
+
+Para generar estas tramas utilizaremos una biblioteca open source que se encuentra en GitHub. Gracias a ella, no tendremos que preocuparnos de generar los distintos elementos del paquete (como el delimitador de comienzo o el cálculo del checksum).
+
+
+#### Configuración de la mota
+
+Para configurar cada mota es necesario conectarla a un ordenador. Existen diversos métodos aunque, durante el desarrollo de este trabajo, se ha utilizado “SparkFun XBee Explorer USB”. Una vez conectado se ha optado por utilizar el software X-CTU, desarrollado por Digi (la misma empresa desarrolladora de XBee), el cual permite instalar distintos firmware, realizar configuraciones y acceder por consola serial a la mota de forma muy sencilla.
+
 
 
 ### Posible problema de escalabilidad
@@ -306,3 +333,4 @@ Como se ha mencionado, en función del tipo de Arduino con el que construyamos n
 9. "XBee® & XBee-PRO® ZB Datasheet" https://cdn.sparkfun.com/datasheets/Wireless/Zigbee/ds_xbeezbmodules.pdf
 10. "Product Detail Digi" http://www.digi.com/support/productdetail?pid=3430&osvid=0&type=documentation
 11. "GitHub - LilyPad 20mm Coin Cell Battery Holder" https://github.com/sparkfun/LilyPad_Coin_Cell_Battery_Holder-20mm
+12. "GitHub - Library for XBee and Arduino" https://github.com/andrewrapp/xbee-arduino
