@@ -1,25 +1,38 @@
-#include <SoftwareSerial.h> 
+#include <SoftwareSerial.h>// import the serial library
 #include <XBee.h>
 #include "TimerOne.h"
 
+SoftwareSerial Genotronex(10, 11); // RX, TX
+int ledpin=7; // led on D13 will show blink on / off
+int BluetoothData; // the data given from Computer
+
+
 XBee xbee;
 
-//SoftwareSerial BT(10,11);
- 
-void setup()
-{
-  Timer1.initialize(500); 
-  Timer1.attachInterrupt(Envio);
-  xbee = XBee();
 
+
+bool leer=true;
+
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Genotronex.begin(9600);
   Serial.begin(9600);
-  Serial1.begin(9600);
-  xbee.setSerial(Serial1);
+  while (!Serial) {  }
   
-  while (!Serial1) {  }
-  //BT.begin(9600); 
+  xbee.setSerial(Serial);
+  
+  
+  Genotronex.println("Bluetooth On please press 1 or 0 blink LED ..");
+  pinMode(ledpin,OUTPUT);
+  digitalWrite(ledpin, HIGH);
   
 }
+
+
+
+
 
 uint8_t payload[] = { 0x7F,'<',0x7F };
 
@@ -43,45 +56,50 @@ bool a = false;
 char recibido;
 
 uint8_t tempo='<';
-unsigned long periodo=4000;
+long periodo=1000;
  
 void Envio(void){
     if(millis()-tiempo>periodo){
-     if(a)
+    // if(a)
        xbee.send(primeraS);
-     else
+  //   else
          xbee.send(segundaS);
-       a=!a;
+    //   a=!a;
        tiempo=millis();
-       Serial.println("ENVIADO");
      }
 }
+
+
+
+void loop() {
+  
+  
  
+  if(leer){ // put your main code here, to run repeatedly:
+   if (Genotronex.available()){
+     leer=false;
+     tempo = Genotronex.read(); 
+     long aux = (long)tempo/(long)60;
+     periodo = 1000/aux-20;
+     
+     
+     float au1= (float)tempo/(float)60;
+     float au2 = (float)1000 / (float)au1;
+     periodo= (long) au2; 
+     
+     digitalWrite(ledpin, LOW);
+       Timer1.initialize(500); 
+      
+  Timer1.attachInterrupt(Envio);
+     Serial.println("----------------------------------------------------------------------------");
+     Serial.println(tempo);
+     Serial.println(au1);
+     Serial.println(au2);
+     Serial.println(periodo);
+     
+     Serial.print(au1); Serial.print(" = "); Serial.print(tempo);Serial.println(" / +60");
 
-void loop()
-{ 
- // noInterrupts();
-/*  if(BT.available()>0)
-  {
-
-
- 
-
-   recibido = BT.read();
-   Serial.println(recibido);
- /*  tempo = (uint8_t) recibido;
-    
-    
-    float aux = (float)tempo/60;
-    periodo=(long)1000/aux;
-    payload[1] = tempo;
-    
-     primeraS=ZBTxRequest(primera,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
-     segundaS=ZBTxRequest(segunda,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
-   terceraS=ZBTxRequest(tercera,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
-
-    Serial.println(periodo);
-*/
-//  }
-  //interrupts();
+     Serial.println("----------------------------------------------------------------------------");
+  }
+  }
 }
