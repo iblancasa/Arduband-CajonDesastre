@@ -1,70 +1,71 @@
-#include <SoftwareSerial.h>// import the serial library
-#include <XBee.h>
-#include "TimerOne.h"
+/**
+* Este código recoge un tempo (uint8_t) a través de Bluetooth. Después lo reenvía a los dispositivos 
+* XBee que se hayan indicado (utilizando otro como emisor).
+* Bibliotecas utilizadas:
+* SoftwareSerial: https://www.arduino.cc/en/pmwiki.php?n=Reference/SoftwareSerial
+* XBee: https://github.com/andrewrapp/xbee-arduino
+* TimerOne: http://playground.arduino.cc/Code/Timer1
+* @author Israel Blancas Álvarez
+**/
 
-SoftwareSerial Genotronex(10, 11); // RX, TX
-int ledpin=7; // led on D13 will show blink on / off
-int BluetoothData; // the data given from Computer
+#include <SoftwareSerial.h>//Permite emular por software un Serial, que usaremos para Bluetooth
+#include <XBee.h> //Facilita el envío de datos usando XBee
+#include "TimerOne.h" //Mejora el acceso al timer 1 de Arduino
 
+SoftwareSerial BTDeviceHC(10, 11); //Creación del puerto serial por software para el Bluetooth
+XBee xbee;//Creación del enlace con XBee
 
-XBee xbee;
-
-
-
-bool leer=true;
-
+bool leer=true;//Leer o no de BT (así no hay que preguntar al serial si hay algo disponible -es más lento-)
+int BTpin=7; //Pin que alimenta a BT
 
 
 void setup() {
-  // put your setup code here, to run once:
-  Genotronex.begin(9600);
-  Serial.begin(9600);
-  while (!Serial) {  }
+  BTDeviceHC.begin(9600);//Inicio del puerto serial del Bluetooth
+  Serial.begin(9600);//Inciio del puerto serial XBee
   
-  xbee.setSerial(Serial);
+  while (!Serial){}
+  
+  xbee.setSerial(Serial);//Asociación de serial al XBee
   
   
-  Genotronex.println("Bluetooth On please press 1 or 0 blink LED ..");
-  pinMode(ledpin,OUTPUT);
-  digitalWrite(ledpin, HIGH);
+  BTDeviceHC.println("Iniciando...");
   
+  
+  pinMode(BTpin,OUTPUT);//Se establece como salida el pin que alimenta al BT
+  digitalWrite(BTpin, HIGH);//Se pone en estado alto
 }
 
 
 
 
+uint8_t payload[] = { 0x7F,'<',0x7F };//Payload a enviar por XBee
 
-uint8_t payload[] = { 0x7F,'<',0x7F };
+XBeeAddress64 primera = XBeeAddress64(0x0013A200, 0x4079E3ED);//Dirección XBee A
+XBeeAddress64 segunda = XBeeAddress64(0x0013A200, 0x40A09C69);//Dirección XBee B
 
-XBeeAddress64 primera = XBeeAddress64(0x0013A200, 0x4079E3ED);
-XBeeAddress64 segunda = XBeeAddress64(0x0013A200, 0x40A09C69);
-XBeeAddress64 tercera = XBeeAddress64(0x0013A200, 0x40A4D173);
+uint16_t addr16=0xffff;//Dirección 16 bit PAN
+uint8_t broadcastradius=0;//Radio de broadcast
+uint8_t option=0;//Opciones de comprobación
+uint8_t frameid=0;//ID del marco (un ID mayor activa comprobaciones)
 
-uint16_t addr16=0xffff;
-uint8_t broadcastradius=0;
-uint8_t option=0;
-uint8_t frameid=0;
-
-ZBTxRequest primeraS=ZBTxRequest(primera,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
-ZBTxRequest segundaS=ZBTxRequest(segunda,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
-ZBTxRequest terceraS=ZBTxRequest(tercera,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
+ZBTxRequest primeraS=ZBTxRequest(primera,addr16,broadcastradius,option,payload,sizeof(payload),frameid);//Creación del paquete A
+ZBTxRequest segundaS=ZBTxRequest(segunda,addr16,broadcastradius,option,payload,sizeof(payload),frameid);//Creación del paquete B
 
 
-long tiempo=0;
-int i=0;
-bool a = false;
-char recibido;
+long tiempo=0;//Última vez que se midió el tiempo
 
-uint8_t tempo='<';
+uint8_t tempo='<';//Tempo guardado
 long periodo=1000;
- 
+
+
+
+/**
+* Función llamada por el timer. Envía los datos a los XBee si ha pasado el suficiente tiempo desde el último envío
+*/
 void Envio(void){
     if(millis()-tiempo>periodo){
-    // if(a)
        xbee.send(primeraS);
-  //   else
-         xbee.send(segundaS);
-    //   a=!a;
+       xbee.send(segundaS);
        tiempo=millis();
      }
 }
@@ -72,34 +73,26 @@ void Envio(void){
 
 
 void loop() {
-  
-  
- 
-  if(leer){ // put your main code here, to run repeatedly:
-   if (Genotronex.available()){
-     leer=false;
-     tempo = Genotronex.read(); 
-     long aux = (long)tempo/(long)60;
-     periodo = 1000/aux-20;
-     
-     
-     float au1= (float)tempo/(float)60;
-     float au2 = (float)1000 / (float)au1;
-     periodo= (long) au2; 
-     
-     digitalWrite(ledpin, LOW);
-       Timer1.initialize(500); 
-      
-  Timer1.attachInterrupt(Envio);
-     Serial.println("----------------------------------------------------------------------------");
-     Serial.println(tempo);
-     Serial.println(au1);
-     Serial.println(au2);
-     Serial.println(periodo);
-     
-     Serial.print(au1); Serial.print(" = "); Serial.print(tempo);Serial.println(" / +60");
+    if(leer){//Si activado
+         if (BTDeviceHC.available()){
 
-     Serial.println("----------------------------------------------------------------------------");
-  }
-  }
+           leer=false;//Desactivamos nuevas lecturas
+           
+           tempo = BTDeviceHC.read();//Leemos tempo (Pulsos por minuto)
+           
+           float au1= (float)tempo/(float)60;// Calculamos pulsos por segundo
+           float au2 = (float)1000 / (float)au1;// Calculamos tiempo entre pulsos
+           periodo = (long) au2*4; // Es el cuádruple (en el receptor se harán las subdivisiones)
+           
+           //Se regeneran los paquetes
+           payload[1]=tempo;
+           primeraS=ZBTxRequest(primera,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
+           segundaS=ZBTxRequest(segunda,addr16,broadcastradius,option,payload,sizeof(payload),frameid);
+           
+           
+           
+           digitalWrite(BTpin, LOW); // Apagamos el dipositivo BT
+           Timer1.initialize(500);  // Iniciamos timer
+        }
+    }
 }
