@@ -1,109 +1,73 @@
-#include <XBee.h>
-#include <TimerOne.h>
+/**
+* Este código recoge un tempo (uint8_t) a través de XBee. Se ajustan los tiempos y hace funcionar un actuador
+* manteniendo un pulso
+* Bibliotecas utilizadas:
+* XBee: https://github.com/andrewrapp/xbee-arduino
+* TimerOne: http://playground.arduino.cc/Code/Timer1
+* @author Israel Blancas Álvarez
+* Licencia: GPLv2
+**/
+
+#include <XBee.h> //Facilita el envío de datos usando XBee
+#include <TimerOne.h> //Mejora el acceso al timer 1 de Arduino
 
 
-XBee xbee;
-Rx64Response rx64 = Rx64Response();
-const int motor = 2; 
+XBee xbee;//Creación del enlace con XBee
+const int motor = 2;//Pin del actuador
+
 
 void setup() {
   xbee = XBee();
-  Serial.begin(9600);
-  xbee.setSerial(Serial);
+  Serial.begin(4800);//Incio del puerto serial XBee
+  xbee.setSerial(Serial);//Asignación del puerto serial
   
-  pinMode(motor, OUTPUT);
-  Timer1.initialize(500);
+  pinMode(motor, OUTPUT);//Salida del actuador
   
-  Timer1.attachInterrupt(vibrar);
+  Timer1.initialize(500);//Inicialización del timer
+  Timer1.attachInterrupt(vibrar);//Asignación de la función
   
 }
 
 
-bool entrar = false;
+bool entrar = false;//Variable auxiliar para parseo de trama
+long frecuencia = 2000;//Cada cuanto marcar un pulso
+int recibido;//Caracter recibido
+long antes=millis();//Última vez que se midió el tiempo
 
- long frecuencia = 1000;
-int recibido;
- long antes=millis();
 
+/**
+* Función llamada por el timer. Se encarga de activar o desactivar el actuador en función del tiempo que haya pasado
+*/
 void vibrar(void){
-  
-  if(millis() - antes > frecuencia ){
-      digitalWrite(motor, HIGH);
-      antes = millis();
-  }
-  
-  else if(millis() - antes > 300){
-    digitalWrite(motor, LOW);
-  } 
+    if(millis() - antes > frecuencia ){//Tiempo para volver a activar
+        digitalWrite(motor, HIGH);
+        antes = millis();
+    }
+    
+    else if(millis() - antes > 300){//Tiempo para desactivar
+      digitalWrite(motor, LOW);
+    } 
 }
 
 
 
 void loop() {
-  
-   if(Serial.available()>=21){
+   if(Serial.available()>=21){//Si han llegado datos de XBee
+     //Parseo de la trama
      while(Serial.available()>0){
         recibido = Serial.read();
-        
-      //  Serial.println(recibido,HEX);
-        
          if(entrar){
               float au1= (float)recibido/(float)60;
               float au2 = (float)1000 / (float)au1;
-              frecuencia = (long) au2; 
-             Serial.println(recibido,HEX);
-          
-         /*      Serial.println(au1);
-                Serial.println(au2);
-              Serial.println(frecuencia);
-              Serial.println("======================================================");
-           */  
-           Serial.read();
-           entrar = false;
-           digitalWrite(motor, HIGH);
-           antes = millis();
+              frecuencia = (long) au2*2;  
+              Serial.read();//Descartar el último símbolo
+              entrar = false;//Fin del parseo
+              digitalWrite(motor, HIGH);//Activar actuador
+              antes = millis();//Tomar tiempo
           }
-         
-          else if(recibido == 0x7F ){
+          else if(recibido == 0x7F ){//Si está el delimitador
             entrar=true;
           }
-     }
-    //  noInterrupts();
-   
-
-
-   //interrupts();
-  }
-
-
-/**
- 
-   if(Serial.available()>0){
- 
-    //  noInterrupts();
-    recibido = Serial.read();
-    Serial.println(recibido);
-
-    if(entrar){
-        float au1= (float)recibido/(float)60;
-        float au2 = (float)1000 / (float)au1;
-        frecuencia = (long) au2; 
-      // Serial.println(recibido,HEX);
-    
-   /*      Serial.println(au1);
-          Serial.println(au2);
-        Serial.println(frecuencia);
-        Serial.println("======================================================");
-       /* entrar = false;
-        digitalWrite(motor, HIGH);
-         antes = millis();
     }
-   
-    else if(recibido == 0x7F ){
-      entrar=true;
-    }
-   //interrupts();
   }
-*/
-
 }
