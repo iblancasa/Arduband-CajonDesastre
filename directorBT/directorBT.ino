@@ -25,7 +25,8 @@ void setup() {
   Serial.begin(9600);//Inciio del puerto serial XBee
   
   while (!Serial){}
-  
+    
+  xbee = XBee();
   xbee.setSerial(Serial);//Asociación de serial al XBee
   
   
