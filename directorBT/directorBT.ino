@@ -6,6 +6,7 @@
 * XBee: https://github.com/andrewrapp/xbee-arduino
 * TimerOne: http://playground.arduino.cc/Code/Timer1
 * @author Israel Blancas Álvarez
+* Licencia: GPL V2
 **/
 
 #include <SoftwareSerial.h>//Permite emular por software un Serial, que usaremos para Bluetooth
