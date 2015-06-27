@@ -22,7 +22,7 @@ int BTpin=7; //Pin que alimenta a BT
 
 void setup() {
   BTDeviceHC.begin(9600);//Inicio del puerto serial del Bluetooth
-  Serial.begin(9600);//Inciio del puerto serial XBee
+  Serial.begin(9600);//Incio del puerto serial XBee
   
   while (!Serial){}
     
