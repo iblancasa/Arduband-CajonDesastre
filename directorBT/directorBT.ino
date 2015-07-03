@@ -59,16 +59,20 @@ long tiempo=0;//Última vez que se midió el tiempo
 uint8_t tempo='<';//Tempo guardado
 long periodo=1000;
 
-
+bool turno=true;
 
 /**
 * Función llamada por el timer. Envía los datos a los XBee si ha pasado el suficiente tiempo desde el último envío
 */
 void Envio(void){
     if(millis()-tiempo>periodo){
+      if(turno)
        xbee.send(primeraS);
-       xbee.send(segundaS);
-       tiempo=millis();
+       
+      else
+        xbee.send(segundaS);
+      turno=!turno; //Una vez se sincroniza uno y otra vez otro
+      tiempo=millis();
      }
 }
 
