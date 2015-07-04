@@ -9,6 +9,10 @@
 * Licencia: GPL V2
 **/
 
+/**
+ * Para las pruebas se ha utilizado un Arduino Uno original
+*/
+
 #include <SoftwareSerial.h>//Permite emular por software un Serial, que usaremos para Bluetooth
 #include <XBee.h> //Facilita el envío de datos usando XBee
 #include "TimerOne.h" //Mejora el acceso al timer 1 de Arduino
