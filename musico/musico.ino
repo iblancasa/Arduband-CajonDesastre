@@ -8,6 +8,20 @@
 * Licencia: GPLv2
 **/
 
+/**
+ * La implementación final se ha hecho con un derivado de 
+ * Arduino Lilypad. El IDE Arduino piensa que la velocidad
+ * de reloj de esta placa es de 8Mhz cuando, realmente
+ * funciona a 16Mhz. Es por eso que se multiplican los tiempos 
+ * por 2 (para que tarde el doble de tiempo y sea el tiempo que realmente
+ * debe esperar). Por ejemplo:
+ * Si queremos que algo se haga cada 1 segundo, nuestra placa
+ * lo hará cada 500ms. Multiplicando por dos, se soluciona el problema
+ * Lo mismo pasa con el puerto serie: abrirlo a 4800bd, significa que, realmente,
+ * estará funcionando a 9600
+*/
+
+
 #include <XBee.h> //Facilita el envío de datos usando XBee
 #include <TimerOne.h> //Mejora el acceso al timer 1 de Arduino
 
