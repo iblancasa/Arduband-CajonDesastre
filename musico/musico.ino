@@ -17,8 +17,8 @@
  * debe esperar). Por ejemplo:
  * Si queremos que algo se haga cada 1 segundo, nuestra placa
  * lo hará cada 500ms. Multiplicando por dos, se soluciona el problema
- * Lo mismo pasa con el puerto serie: abrirlo a 4800bd, significa que, realmente,
- * estará funcionando a 9600
+ * Lo mismo pasa con el puerto serie: abrirlo a 4800bps, significa que, realmente,
+ * estará funcionando a 9600 bps
 */
 
 
